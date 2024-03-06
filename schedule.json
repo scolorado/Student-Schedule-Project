@@ -1,0 +1,46 @@
+{
+    "schedule": [
+        {
+            "class_name": "AP Computer Science A",
+            "teacher_name": "Ms. Hoagland",
+            "room_number": "B108",
+            "days": ["A", "B", "C", "E", "F"]
+        },
+        {
+            "class_name": "Honors NJIT IS219 Advanced Website Development",
+            "teacher_name": "Mr. Gasior",
+            "room_number": "B114",
+            "days": ["A", "B", "D", "E", "F"]
+        },
+        {
+            "class_name": "AP Microeconomics",
+            "teacher_name": "Ms. Burstein",
+            "room_number": "D107",
+            "days": ["A", "C", "D", "E", "G"]
+        },
+        {
+            "class_name": "AP Calculus BC",
+            "teacher_name": "Mr. Drummond",
+            "room_number": "D219",
+            "days": ["B", "C", "D", "F", "G"]
+        },
+        {
+            "class_name": "Study Hall",
+            "teacher_name": "Mr. Wong",
+            "room_number": "MED1",
+            "days": ["A", "D", "E", "G"]
+        },
+        {
+            "class_name": "AP English Lit & Comp",
+            "teacher_name": "Mr. Hipsley",
+            "room_number": "E105",
+            "days": ["A", "C", "D", "F", "G"]
+        },
+        {
+            "class_name": "AP Physics 2",
+            "teacher_name": "Mr. Reardon",
+            "room_number": "G202",
+            "days": ["B", "C", "E", "F", "G"]
+        }
+    ]
+}
