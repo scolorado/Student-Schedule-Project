@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="jquery-3.7.1.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@100;400;700&family=Modak&display=swap" rel="stylesheet">
@@ -16,35 +17,87 @@
 
     <h1>Sofia's Schedule</h1>
 
+    <!-- Dropdown selector for filtering by day -->
     <div class="container p-2">
-        <table class="table">
-            <thead>
-                <th class="Class Name">Class Name</th>
-                <th class="Teacher Name">Teacher Name</th>
-                <th class="Room Number">Room Number</th>
-                <th class="Days">Days</th>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <label for="daySelector">Select Day:</label>
+        <select id="daySelector">
+            <option value="all">All Days</option>
+            <!-- Dropdown options populated from JSON data -->
+        </select>
     </div>
 
+    <!-- Empty div where the schedule will be displayed -->
+    <div id="scheduleDisplay" class="container p-2"></div>
 
     <script>
         $(document).ready(function() {
-            $.getJSON("schedule.json", function(data){
-                $.each(data, function(index, schedule) {
-                    var row = "<tr>";
-
-                    row += "<td>" + schedule.class_name + "</td>";
-                    row += "<td>" + schedule.teacher_name + "</td>";
-                    row += "<td>" + schedule.room_number + "</td>";
-                    row += "<td>" + schedule.days + "</td>";
-
-                    row += "</tr>";
-        
-                    $("table tbody").append(row);
+            // Function to fetch data from JSON file
+            function fetchData(callback) {
+                $.getJSON("schedule.json", function(data) {
+                    callback(data);
                 });
+            }
+
+            // Function to display schedule based on selected day
+            function displaySchedule(selectedDay, scheduleData) {
+                var filteredSchedule = [];
+                if (selectedDay === "all") {
+                    filteredSchedule = scheduleData.schedule;
+                } else {
+                    filteredSchedule = scheduleData.schedule.filter(function(schedule) {
+                        return schedule.days.includes(selectedDay);
+                    });
+                }
+
+                // Generate HTML for displaying schedule
+                var scheduleHTML = "<table class='table'>";
+                scheduleHTML += "<thead><tr><th>Class Name</th><th>Teacher Name</th><th>Room Number</th><th>Days</th></tr></thead>";
+                scheduleHTML += "<tbody>";
+                filteredSchedule.forEach(function(schedule) {
+                    scheduleHTML += "<tr>";
+                    scheduleHTML += "<td>" + schedule.class_name + "</td>";
+                    scheduleHTML += "<td>" + schedule.teacher_name + "</td>";
+                    scheduleHTML += "<td>" + schedule.room_number + "</td>";
+                    scheduleHTML += "<td>" + schedule.days.join(", ") + "</td>";
+                    scheduleHTML += "</tr>";
+                });
+                scheduleHTML += "</tbody></table>";
+
+                // Display schedule in the scheduleDisplay div
+                $("#scheduleDisplay").html(scheduleHTML);
+            }
+
+            // Function to populate dropdown with days
+            function populateDropdown(scheduleData) {
+                var days = [];
+                scheduleData.schedule.forEach(function(schedule) {
+                    schedule.days.forEach(function(day) {
+                        if (!days.includes(day)) {
+                            days.push(day);
+                        }
+                    });
+                });
+
+                var dropdownOptions = "<option value='all'>All Days</option>";
+                days.forEach(function(day) {
+                    dropdownOptions += "<option value='" + day + "'>" + day + "</option>";
+                });
+
+                $("#daySelector").html(dropdownOptions);
+            }
+
+            // Event listener for the dropdown selector
+            $("#daySelector").change(function() {
+                var selectedDay = $(this).val();
+                fetchData(function(data) {
+                    displaySchedule(selectedDay, data);
+                });
+            });
+
+            // Initial population of dropdown and display of full schedule
+            fetchData(function(data) {
+                populateDropdown(data);
+                displaySchedule("all", data);
             });
         });
     </script>
