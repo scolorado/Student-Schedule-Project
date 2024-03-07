@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="jquery-3.7.1.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@100;400;700&family=Modak&display=swap" rel="stylesheet">
@@ -16,6 +17,23 @@
 
     <h1>Sofia's Schedule</h1>
 
+    
+    <!-- Add dropdown selector here -->
+    <div class="container p-2">
+        <label for="daySelector">Select Day:</label>
+        <select id="daySelector">
+            <option value="all">All Days</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+        </select>
+    </div>
+
+    <!-- Existing table code -->
     <div class="container p-2">
         <table class="table">
             <thead>
@@ -29,7 +47,10 @@
         </table>
     </div>
 
+    <!-- Empty div for displaying the filtered schedule -->
+    <div id="filteredSchedule" class="container p-2"></div>
 
+    <!-- Existing script code -->
     <script>
         $(document).ready(function() {
             $.getJSON("schedule.json", function(data){
@@ -39,7 +60,7 @@
                     row += "<td>" + schedule.class_name + "</td>";
                     row += "<td>" + schedule.teacher_name + "</td>";
                     row += "<td>" + schedule.room_number + "</td>";
-                    row += "<td>" + schedule.days.join(", ") + "</td>";
+                    row += "<td>" + schedule.days + "</td>";
 
                     row += "</tr>";
         
