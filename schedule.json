@@ -41,6 +41,12 @@
             "teacher_name": "Mr. Reardon",
             "room_number": "G202",
             "days": ["B", "C", "E", "F", "G"]
+        },
+        {
+            "class_name": "AP Physics 2",
+            "teacher_name": "Mr. Reardon",
+            "room_number": "G202",
+            "days": ["B"]
         }
     ]
 }
