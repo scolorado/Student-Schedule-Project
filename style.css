@@ -5,6 +5,9 @@ th{
     font-family: "Modak", system-ui;
     font-weight: 400;
     font-style: normal;
+    
+    background-color: rgb(85, 85, 85) !important;
+    color: white !important;
 }
 td{
     font-family: "Manjari", sans-serif;
@@ -17,6 +20,7 @@ h1{
     font-family: "Modak", system-ui;
     font-weight: 400;
     font-style: normal;
-    padding: 10px;
 
+    padding: 10px;
+    color: black !important;
 }
