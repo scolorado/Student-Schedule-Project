@@ -17,9 +17,10 @@
 
     <h1>Sofia's Schedule</h1>
 
-    
-    <!-- Add dropdown selector here -->
+
+
     <div class="container p-2">
+
         <label for="daySelector">Select Day:</label>
         <select id="daySelector">
             <option value="all">All Days</option>
@@ -31,41 +32,60 @@
             <option value="F">F</option>
             <option value="G">G</option>
         </select>
-    </div>
 
-    <!-- Existing table code -->
-    <div class="container p-2">
+        <div id="scheduleDisplay"></div>
+
         <table class="table">
             <thead>
-                <th class="Class Name">Class Name</th>
-                <th class="Teacher Name">Teacher Name</th>
-                <th class="Room Number">Room Number</th>
-                <th class="Days">Days</th>
             </thead>
             <tbody>
             </tbody>
         </table>
     </div>
 
-    <!-- Empty div for displaying the filtered schedule -->
-    <div id="filteredSchedule" class="container p-2"></div>
-
-    <!-- Existing script code -->
     <script>
         $(document).ready(function() {
-            $.getJSON("schedule.json", function(data){
-                $.each(data, function(index, schedule) {
-                    var row = "<tr>";
+            // Get the JSON data
+            $.getJSON("schedule.json", function(data) {
+                // Store the schedule data in a variable
+                var scheduleData = data.schedule;
 
-                    row += "<td>" + schedule.class_name + "</td>";
-                    row += "<td>" + schedule.teacher_name + "</td>";
-                    row += "<td>" + schedule.room_number + "</td>";
-                    row += "<td>" + schedule.days + "</td>";
+                // Function to display schedule based on selected day
+                function displaySchedule(selectedDay) {
+                    // Clear the previous schedule display
+                    $("#scheduleDisplay").empty();
 
-                    row += "</tr>";
-        
-                    $("table tbody").append(row);
+                    // Filter the schedule based on the selected day
+                    var filteredSchedule = scheduleData.filter(function(schedule) {
+                        return selectedDay === "all" || schedule.days.includes(selectedDay);
+                    });
+
+                    // Generate HTML for displaying the filtered schedule
+                    var scheduleHTML = "<table class='table'>";
+                    scheduleHTML += "<thead><tr><th>Class Name</th><th>Teacher Name</th><th>Room Number</th><th>Days</th></tr></thead>";
+                    scheduleHTML += "<tbody>";
+                    filteredSchedule.forEach(function(schedule) {
+                        scheduleHTML += "<tr>";
+                        scheduleHTML += "<td>" + schedule.class_name + "</td>";
+                        scheduleHTML += "<td>" + schedule.teacher_name + "</td>";
+                        scheduleHTML += "<td>" + schedule.room_number + "</td>";
+                        scheduleHTML += "<td>" + schedule.days.join(", ") + "</td>";
+                        scheduleHTML += "</tr>";
+                    });
+                    scheduleHTML += "</tbody></table>";
+
+                    // Display the filtered schedule
+                    $("#scheduleDisplay").html(scheduleHTML);
+                }
+
+                // Event listener for the dropdown selector
+                $("#daySelector").change(function() {
+                    var selectedDay = $(this).val();
+                    displaySchedule(selectedDay);
                 });
+
+                // Display the full schedule initially
+                displaySchedule("all");
             });
         });
     </script>
